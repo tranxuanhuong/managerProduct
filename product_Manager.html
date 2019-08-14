@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input id="addPrd" type="text">
+<button id="add" type="button" onclick="addProduct();displayProduct()" style="color: white;background-color: green">Thêm sản phẩm</button>
+<br>
+<input id="renamePrd" type="text">
+<button id="rename" type="button" onclick="renameProduct();displayProduct() ">Sửa sản phẩm</button>
+<button id="delete" type="button" onclick="deleteProduct();displayProduct() ">Xóa sản phẩm</button>
+<div id="view"></div>
+<script>
+    let arrProduct=[];
+    function displayProduct() {
+        let content="";
+        content += "<table border='1' width='auto' cellspacing='0' cellpadding='3' style='color: goldenrod'>";
+        content+="<tr>" +
+            "<td>STT</td>" +
+            "<td>Tên SP</td>" +
+            "<td>Xóa SP</td>" +
+            "</tr>";
+        for (let i = 0; i < arrProduct.length; i++) {
+           content+= "<tr>";
+            content += "<td>" + (i+1) + "</td>" +
+                "<td>" + arrProduct[i] + "</td>" +
+                "<td>" + "<button id=\"" + i + "\" type=\"button\" onclick=\"deleteProduct(this.id),displayProduct()\">Xóa sản phẩm</button>" + "</td>";
+           content+= "</tr>";
+
+        }
+        document.getElementById("view").innerHTML = content;
+    }
+    function addProduct() {
+        let newProduct=document.getElementById('addPrd').value;
+        if (newProduct==""){
+            alert('Nhập sp mới ');
+        }else {
+            arrProduct[arrProduct.length]=newProduct;
+            alert('đã thêm sp');
+            document.getElementById('addPrd').value="";
+        }
+
+    }
+    function findProduct(oldName) {
+        let index=-1;
+        for (let i=0;i<arrProduct.length;i++){
+            if(oldName==arrProduct[i]){
+                index=i;
+            }
+        }
+        return index;
+
+    }
+
+
+    function renameProduct() {
+        let oldName=document.getElementById('renamePrd').value;
+        let index=findProduct(oldName);
+        if(index==-1){
+            alert('k tim thay sp');
+        }else {
+            let newName=document.getElementById('rename').value;
+            let exist=false;
+            for(let i=0;i<arrProduct.length;i++){
+                if (newName==arrProduct[i]){
+                 exist=true;
+                }
+
+            }
+
+            if (exist){
+                alert('sp da co');
+            }else {
+                arrProduct[index]=newName;
+                alert('da doi ten');
+            }
+            document.getElementById('rename').value="";
+        }
+
+
+    }
+
+    function deleteProduct(id) {
+        arrProduct.splice(id,1);
+        alert("Đã xóa sản phẩm");
+    }
+        
+
+
+</script>
+</body>
+</html>
